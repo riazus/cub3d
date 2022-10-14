@@ -1,0 +1,7 @@
+./vscode
+./.vscode
+.DS_Store
+./libtf/*.o
+./libtf/*.a
+./src/*.o
+cub3D

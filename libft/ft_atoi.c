@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   atoi.c                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jannabel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akitty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/05 19:16:13 by jannabel          #+#    #+#             */
-/*   Updated: 2021/10/23 19:04:42 by jannabel         ###   ########.fr       */
+/*   Created: 2021/10/06 18:14:10 by akitty            #+#    #+#             */
+/*   Updated: 2021/10/06 18:14:11 by akitty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,28 @@
 
 int	ft_atoi(const char *str)
 {
-	long	res;
-	long	sing;
-	int		i;
+	size_t	i;
+	int		result;
+	int		neg;
 
-	sing = 1;
-	res = 0;
 	i = 0;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+	result = 0;
+	neg = 1;
+	if (!str)
+		return (0);
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'
+		|| str[i] == '\r' || str[i] == '\v' || str[i] == '\f')
 		i++;
-	if (str[i] == 43 || str[i] == 45)
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (str[i++] == 45)
-			sing *= -1;
-	}	
-	while (ft_isdigit(str[i]))
-	{		
-		res = (res * 10) + (str[i++] - '0');
-		if (res < 0)
-		{
-			if (sing < 0)
-				return (0);
-			return (-1);
-		}
+		if (str[i] == '-')
+			neg = -1;
+		i++;
 	}
-	return (res * sing);
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = (result * 10) + (str[i] - '0');
+		i++;
+	}
+	return (result * neg);
 }

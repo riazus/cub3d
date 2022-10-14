@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putstr.c                                           :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jannabel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akitty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/13 16:54:56 by jannabel          #+#    #+#             */
-/*   Updated: 2021/10/22 17:25:08 by jannabel         ###   ########.fr       */
+/*   Created: 2021/10/11 11:00:56 by akitty            #+#    #+#             */
+/*   Updated: 2021/10/11 11:00:57 by akitty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	if (!*s || fd < 0)
+	int	i;
+
+	i = 0;
+	if (!s)
 		return ;
-	write(fd, s, ft_strlen(s));
+	while (s[i])
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
 }

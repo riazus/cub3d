@@ -1,41 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memmove.c                                          :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jannabel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akitty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/08 19:32:39 by jannabel          #+#    #+#             */
-/*   Updated: 2021/10/16 22:40:19 by jannabel         ###   ########.fr       */
+/*   Created: 2021/10/05 18:19:38 by akitty            #+#    #+#             */
+/*   Updated: 2021/10/05 18:19:39 by akitty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dest, void *src, size_t n)
 {
-	size_t	i;
+	char			*src_temp;
+	char			*dest_temp;
+	size_t			i;
 
+	src_temp = (char *)src;
+	dest_temp = (char *)dest;
 	i = 0;
-	if (dst == NULL && src == NULL)
-		return (NULL);
-	if (dst == src)
-		return (dst);
-	if (dst < src)
+	if (dest == 0 && src == 0)
+		return (0);
+	if (dest_temp > src_temp)
 	{
-		while (i < len)
-		{
-			((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
-			i++;
-		}
+		while (n-- > 0)
+			dest_temp[n] = src_temp[n];
 	}
 	else
 	{
-		while (len > 0)
+		while (i < n)
 		{
-			((unsigned char *)dst)[len - 1] = ((unsigned char *)src)[len - 1];
-			len--;
+			dest_temp[i] = src_temp[i];
+			i++;
 		}
 	}
-	return (dst);
+	return (dest_temp);
 }

@@ -1,100 +1,112 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split.c                                          :+:      :+:    :+:  */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jannabel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akitty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/17 04:52:47 by jannabel          #+#    #+#             */
-/*   Updated: 2021/10/20 19:37:08 by jannabel         ###   ########.fr       */
+/*   Created: 2021/10/17 12:14:10 by akitty            #+#    #+#             */
+/*   Updated: 2021/10/17 12:14:11 by akitty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_count_strings(char *str, char divider)
+static void	malloc_error(char **arr)
 {
-	int	i;
-	int	count;
+	size_t	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free (arr);
+}
+
+static size_t	get_count_words(char *str, char c)
+{
+	size_t	i;
+	size_t	count;
 
 	i = 0;
 	count = 0;
-	while (str[i] != '\0')
+	if (ft_strlen(str) == 0)
+		return (0);
+	while (str[i] && str[i] == c)
+		i++;
+	while (str[i])
 	{
-		 if (str[i] != divider && (str[i + 1] == divider || str[i + 1] == '\0'))
+		if (str[i] == c)
+		{
 			count++;
+			while (str[i] && str[i] == c)
+				i++;
+			continue ;
+		}
 		i++;
 	}
+	if (str[i - 1] != c)
+		count++;
 	return (count);
 }
 
-static int	ft_len_string(char *str, char divider, int index)
+static char	*get_str(char const *s, char c)
 {
-	int	len;
+	size_t	i;
+	char	*str;
 
-	len = 0;
-	while (str[index] != divider && str[index] != '\0')
-	{
-		index++;
-		len++;
-	}
-	return (len);
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	str = (char *)malloc(sizeof(char) * (i + 1));
+	if (!str)
+		return (0);
+	ft_strlcpy(str, s, i + 1);
+	return (str);
 }
 
-static char	**clear_leaks(char **dst, int s_index)
+static int	fill_array(char **array, char *str, char c)
 {
-	int	clean_s_index;
+	size_t	word_index;
 
-	clean_s_index = 0;
-	while (clean_s_index < s_index)
+	word_index = 0;
+	while (*str && *str == c)
+		str++;
+	while (*str)
 	{
-		free(dst[clean_s_index]);
-		clean_s_index++;
+		array[word_index] = get_str((char *)str, c);
+		if (!array[word_index])
+			return (0);
+		++word_index;
+		while (*str && *str != c)
+			str++;
+		if (c != '\0')
+		{
+			while (*str == c)
+				str++;
+		}
 	}
-	free(dst);
-	return (NULL);
-}
-
-static char	**fill_td_array(char **dst, char *src, char divider, int count_str)
-{
-	int	s_index;
-	int	c_index;
-	int	len_string;
-	int	src_index;
-
-	s_index = 0;
-	len_string = 0;
-	src_index = 0;
-	while (s_index < count_str)
-	{
-		c_index = 0;
-		while (src[src_index] == divider)
-			src_index++;
-		len_string = ft_len_string(src, divider, src_index);
-		dst[s_index] = (char *)(malloc(sizeof(char) * (len_string + 1)));
-		if (dst[s_index] == NULL)
-			return (clear_leaks(dst, s_index));
-		while (c_index < len_string)
-			dst[s_index][c_index++] = src[src_index++];
-		dst[s_index++][c_index] = '\0';
-	}
-	dst[s_index] = NULL;
-	return (dst);
+	return (1);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**ss;
-	int		count_strings;
+	size_t	count_words;
+	char	**array;
 
-	if (s == NULL)
-		return (NULL);
-	count_strings = ft_count_strings((char *)s, c);
-	ss = (char **)(malloc(sizeof(char *) * (count_strings + 1)));
-	if (ss == NULL)
-		return (NULL);
-	ss = fill_td_array(ss, (char *)s, c, count_strings);
-	if (ss == NULL)
-		return (NULL);
-	return (ss);
+	if (!s)
+		return (0);
+	count_words = get_count_words((char *)s, c);
+	array = (char **)malloc(sizeof(char *) * (count_words + 1));
+	if (!array)
+		return (0);
+	array[count_words] = 0;
+	if (!fill_array(array, (char *)s, c))
+	{
+		malloc_error(array);
+		return (0);
+	}
+	return (array);
 }

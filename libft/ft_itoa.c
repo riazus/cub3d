@@ -1,57 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   itoa.c                                             :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jannabel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akitty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/13 17:16:19 by jannabel          #+#    #+#             */
-/*   Updated: 2021/10/19 20:12:00 by jannabel         ###   ########.fr       */
+/*   Created: 2021/10/20 12:30:15 by akitty            #+#    #+#             */
+/*   Updated: 2021/10/20 12:30:28 by akitty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-int	value(int n)
+static int	ft_len(int n)
 {
+	int	count;
+
+	count = 0;
 	if (n < 0)
-		return (-n);
-	return (n);
-}
-
-int	get_len(int n)
-{
-	int	len;
-
-	len = 0;
-	if (n <= 0)
-		++len;
+	{
+		n *= -1;
+		count++;
+	}
 	while (n != 0)
 	{
-		++len;
-		n = n / 10;
+		n /= 10;
+		count++;
 	}
-	return (len);
+	return (count);
+}
+
+static char	*get_str(int n)
+{
+	char	*res;
+	int		count;
+
+	count = ft_len(n);
+	res = (char *)malloc(sizeof(char) * (count + 1));
+	if (!res)
+		return (0);
+	if (n < 0)
+	{
+		res[0] = '-';
+		n *= -1;
+	}
+	res[count] = '\0';
+	while (n > 0)
+	{
+		res[--count] = (n % 10) + '0';
+		n /= 10;
+	}
+	return (res);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*result;
-	int		len;
-
-	len = get_len(n);
-	result = malloc(len + 1);
-	if (result == NULL)
-		return (NULL);
-	result[len] = '\0';
-	if (n < 0)
-		result[0] = '-';
+	if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
 	else if (n == 0)
-		result[0] = '0';
-	while (n != 0)
-	{
-		--len;
-		result[len] = value(n % 10) + '0';
-		n = n / 10;
-	}
-	return (result);
+		return (ft_strdup("0"));
+	else
+		return (get_str(n));
 }

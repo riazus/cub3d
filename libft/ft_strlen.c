@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strlen.c                                           :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jannabel <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: akitty <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/04 19:49:27 by jannabel          #+#    #+#             */
-/*   Updated: 2021/11/01 17:02:35 by jannabel         ###   ########.fr       */
+/*   Created: 2021/10/22 16:16:41 by akitty            #+#    #+#             */
+/*   Updated: 2021/10/22 16:16:42 by akitty           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_strlen(const char *str)
 {
-	unsigned long int	i;
+	int	i;
 
 	i = 0;
 	if (!str)
