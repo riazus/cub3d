@@ -3,5 +3,7 @@
 .DS_Store
 ./libft/*.o
 ./libft/*.a
-./src/*.o
+./src/map_option/*.o
+./src/rendering/*.o
+./src/utils/*.o
 cub3D
