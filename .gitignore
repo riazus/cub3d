@@ -1,7 +1,7 @@
 ./vscode
 ./.vscode
 .DS_Store
-./libtf/*.o
-./libtf/*.a
+./libft/*.o
+./libft/*.a
 ./src/*.o
 cub3D
